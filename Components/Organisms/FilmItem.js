@@ -4,7 +4,10 @@ import { View, Text, StyleSheet, Image } from "react-native";
 export default function FilmItem({ film }) {
   return (
     <View style={styles.main_container}>
-      <Image style={styles.image_film} source={{ uri: "image" }} />
+      <Image
+        style={styles.image_film}
+        source={{ uri: `https://image.tmdb.org/t/p/w300${film.poster_path}` }}
+      />
       <View style={styles.information_container}>
         <View style={styles.information_header}>
           <Text style={styles.title_film}>{film.title}</Text>
