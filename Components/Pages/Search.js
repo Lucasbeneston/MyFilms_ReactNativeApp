@@ -1,34 +1,36 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Button, TextInput, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, TextInput, FlatList } from "react-native";
 import FilmItem from "../Organisms/FilmItem";
-import { getFilmsFromApiWithSearchedText } from "../../API/TMDBApi";
+import {
+  getFilmsFromApiWithSearchedText,
+  getNowPlayingFilmsFromApi,
+} from "../../API/TMDBApi";
 
 export default function Search() {
-  const [films, setFilms] = useState({
-    arrayFilms: [],
-    searchText: "",
-  });
+  const [films, setFilms] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   const searchTextInputChanged = (text) => {
-    setFilms({ searchText: text });
+    setSearchText(text);
   };
 
-  const loadFilms = () => {
-    if (films.searchText.length > 0) {
-      getFilmsFromApiWithSearchedText(films.searchText).then((data) =>
+  useEffect(() => {
+    if (searchText.length === 0) {
+      getNowPlayingFilmsFromApi().then((data) => setFilms(data.results));
+    } else {
+      getFilmsFromApiWithSearchedText(searchText).then((data) =>
         setFilms(data.results)
       );
     }
-  };
+  }, [searchText]);
 
   return (
     <View style={styles.main_container}>
       <TextInput
         style={styles.textinput}
-        placeholder="Titre du film"
+        placeholder="Rechercher un film"
         onChangeText={searchTextInputChanged}
       />
-      <Button title="Rechercher" onPress={loadFilms} />
       <FlatList
         data={films}
         keyExtractor={(item) => item.id.toString()}
