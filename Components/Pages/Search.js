@@ -15,15 +15,21 @@ export default function Search() {
     setSearchText(text);
   };
 
-  useEffect(() => {
+  const loadFilms = () => {
     if (searchText.length === 0) {
-      getNowPlayingFilmsFromApi().then((data) => setFilms(data.results));
+      getNowPlayingFilmsFromApi().then((data) => {
+        setFilms(data.results);
+      });
     } else {
       getFilmsFromApiWithSearchedText(searchText).then((data) => {
         setFilms(data.results);
         setResults(data.total_results);
       });
     }
+  };
+
+  useEffect(() => {
+    loadFilms();
   }, [searchText]);
 
   return (
