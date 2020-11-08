@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -23,24 +23,9 @@ function FilmDetail({ idFilm, navigation, dispatch, favoritesFilm }) {
   }, []);
 
   const toggleFavorite = () => {
-    console.log("Click");
     const action = { type: "TOGGLE_FAVORITE", value: filmDetail };
     dispatch(action);
   };
-
-  const mounted = useRef();
-  useEffect(() => {
-    if (!mounted.current) {
-      // do componentDidMount logic
-      mounted.current = true;
-      console.log("Did mount");
-      console.log("favoritesFilm : ", favoritesFilm);
-    } else {
-      // do componentDidUpdate logic
-      console.log("Did update");
-      console.log("favoritesFilm : ", favoritesFilm);
-    }
-  });
 
   const displayFavoriteImage = () => {
     let sourceImage = require("../../Images/ic_favorite_border.png");
