@@ -5,8 +5,9 @@ import {
   getFilmsFromApiWithSearchedText,
   getNowPlayingFilmsFromApi,
 } from "../../API/TMDBApi";
+import Navigation from "../../Navigation/Navigation";
 
-export default function Search() {
+export default function Search({ navigation }) {
   const [films, setFilms] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState(0);
@@ -32,6 +33,10 @@ export default function Search() {
     loadFilms();
   }, [searchText]);
 
+  const displayDetailForFilm = (idFilm) => {
+    navigation.navigate("FilmDetail", { idFilm: idFilm });
+  };
+
   return (
     <View style={styles.main_container}>
       <TextInput
@@ -49,16 +54,17 @@ export default function Search() {
         keyExtractor={(item) => item.id.toString()}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
-          console.log("onEndReached");
+          console.log("Fin de la page");
         }}
-        renderItem={({ item }) => <FilmItem film={item} />}
+        renderItem={({ item }) => (
+          <FilmItem film={item} displayDetailForFilm={displayDetailForFilm} />
+        )}
       />
     </View>
   );
 }
 const styles = StyleSheet.create({
   main_container: {
-    marginTop: 50,
     flex: 1,
   },
   textinput: {
@@ -66,14 +72,12 @@ const styles = StyleSheet.create({
     borderColor: "#000000",
     borderWidth: 1,
     borderRadius: 25,
-    marginLeft: 15,
-    marginRight: 15,
+    margin: 15,
     paddingLeft: 15,
   },
   list_title: {
     fontSize: 15,
     textAlign: "center",
-    marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 15,
   },
 });

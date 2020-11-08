@@ -1,9 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
 
-export default function FilmItem({ film }) {
+export default function FilmItem({ film, displayDetailForFilm }) {
   return (
-    <View style={styles.main_container}>
+    <TouchableOpacity
+      style={styles.main_container}
+      onPress={() => displayDetailForFilm(film.id)}
+    >
       <Image
         style={styles.image_film}
         source={{ uri: `https://image.tmdb.org/t/p/w300${film.poster_path}` }}
@@ -18,7 +21,7 @@ export default function FilmItem({ film }) {
         </Text>
         <Text style={styles.release_film}>Sorti le {film.release_date}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
