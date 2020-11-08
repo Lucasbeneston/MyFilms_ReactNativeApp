@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
+import moment from "moment";
 
 export default function FilmItem({ film, displayDetailForFilm }) {
   return (
@@ -13,13 +14,17 @@ export default function FilmItem({ film, displayDetailForFilm }) {
       />
       <View style={styles.information_container}>
         <View style={styles.information_header}>
-          <Text style={styles.title_film}>{film.title}</Text>
+          <Text style={styles.title_film}>
+            {film.title}{" "}
+            <Text style={styles.release_date}>
+              ({moment(new Date(film.release_date)).format("YYYY")})
+            </Text>
+          </Text>
           <Text style={styles.vote_film}>{film.vote_average}</Text>
         </View>
         <Text style={styles.description_film} numberOfLines={5}>
           {film.overview}
         </Text>
-        <Text style={styles.release_film}>Sorti le {film.release_date}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -53,8 +58,13 @@ const styles = StyleSheet.create({
     flex: 2,
     flexWrap: "wrap",
   },
+  release_date: {
+    fontWeight: "normal",
+    fontSize: 15,
+    color: "grey",
+  },
   description_film: {
-    flex: 2,
+    flex: 1,
     fontStyle: "italic",
     color: "grey",
   },
