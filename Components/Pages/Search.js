@@ -5,9 +5,10 @@ import {
   getFilmsFromApiWithSearchedText,
   getNowPlayingFilmsFromApi,
 } from "../../API/TMDBApi";
-import Navigation from "../../Navigation/Navigation";
+// import Navigation from "../../Navigation/Navigation";
+import { connect } from "react-redux";
 
-export default function Search({ navigation }) {
+function Search({ navigation, favoritesFilm }) {
   const [films, setFilms] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState(0);
@@ -51,13 +52,22 @@ export default function Search({ navigation }) {
       </Text>
       <FlatList
         data={films}
+        extraData={favoritesFilm}
         keyExtractor={(item) => item.id.toString()}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
           console.log("Fin de la page");
         }}
         renderItem={({ item }) => (
-          <FilmItem film={item} displayDetailForFilm={displayDetailForFilm} />
+          <FilmItem
+            film={item}
+            isFilmFavorite={
+              favoritesFilm.findIndex((film) => film.id === item.id) !== -1
+                ? true
+                : false
+            }
+            displayDetailForFilm={displayDetailForFilm}
+          />
         )}
       />
     </View>
@@ -81,3 +91,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+    favoritesFilm: state.favoritesFilm,
+  };
+};
+
+export default connect(mapStateToProps)(Search);

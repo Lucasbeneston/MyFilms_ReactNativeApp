@@ -2,7 +2,22 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
 import moment from "moment";
 
-export default function FilmItem({ film, displayDetailForFilm }) {
+export default function FilmItem({
+  film,
+  displayDetailForFilm,
+  isFilmFavorite,
+}) {
+  const displayFavoriteImage = () => {
+    if (isFilmFavorite) {
+      return (
+        <Image
+          style={styles.favorite_image}
+          source={require("../../Images/ic_favorite.png")}
+        />
+      );
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.main_container}
@@ -20,7 +35,10 @@ export default function FilmItem({ film, displayDetailForFilm }) {
               ({moment(new Date(film.release_date)).format("YYYY")})
             </Text>
           </Text>
-          <Text style={styles.vote_film}>{film.vote_average}</Text>
+          <View>
+            <Text style={styles.vote_film}>{film.vote_average}</Text>
+            {displayFavoriteImage()}
+          </View>
         </View>
         <Text style={styles.description_film} numberOfLines={5}>
           {film.overview}
@@ -67,5 +85,10 @@ const styles = StyleSheet.create({
     flex: 1,
     fontStyle: "italic",
     color: "grey",
+  },
+  favorite_image: {
+    width: 25,
+    height: 25,
+    marginRight: 5,
   },
 });
