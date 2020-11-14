@@ -58,6 +58,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
       showIcon: true,
       activeBackgroundColor: "#DDDDDD",
       inactiveBackgroundColor: "#FFFFFF",
+      // activeTintColor: "#e91e63",
     },
   }
 );
