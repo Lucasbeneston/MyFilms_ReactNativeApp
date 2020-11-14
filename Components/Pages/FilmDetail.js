@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
+  Share,
   View,
   Text,
   ScrollView,
   Image,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { getFilmDetailFromApi } from "../../API/TMDBApi";
 import moment from "moment";
@@ -13,8 +15,35 @@ import { connect } from "react-redux";
 
 function FilmDetail({ idFilm, navigation, dispatch, favoritesFilm }) {
   idFilm = navigation.state.params.idFilm;
-
   const [filmDetail, setFilmDetail] = useState(undefined);
+
+  // WIP : Pb avec la fonction static
+  FilmDetail.navigationOptions = ({ navigation }) => {
+    console.log("THIS IS A STATIC METHOD");
+    const { params } = navigation.state;
+    if (params.film != undefined && Platform.OS === "ios") {
+      return {
+        headerRight: (
+          <TouchableOpacity
+            style={styles.share_touchable_headerrightbutton}
+            onPress={shareFilm}
+          >
+            <Image
+              style={styles.share_image}
+              source={require("../../Images/ic_share.png")}
+            />
+          </TouchableOpacity>
+        ),
+      };
+    }
+  };
+
+  const updateNavigationParams = () => {
+    navigation.setParams({
+      shareFilm: shareFilm,
+      film: filmDetail,
+    });
+  };
 
   useEffect(() => {
     const favoriteFilmIndex = favoritesFilm.findIndex(
@@ -28,6 +57,31 @@ function FilmDetail({ idFilm, navigation, dispatch, favoritesFilm }) {
       setFilmDetail(data);
     });
   }, []);
+
+  useEffect(() => {
+    updateNavigationParams();
+  }, [filmDetail]);
+
+  const shareFilm = () => {
+    Share.share({ title: filmDetail.title, message: filmDetail.overview });
+  };
+
+  // Button spécifique à Androïd
+  const displayFloatingActionButton = () => {
+    if (filmDetail != undefined && Platform.OS === "android") {
+      return (
+        <TouchableOpacity
+          style={styles.share_touchable_floatingactionbutton}
+          onPress={shareFilm}
+        >
+          <Image
+            style={styles.share_image}
+            source={require("../../Images/ic_share.png")}
+          />
+        </TouchableOpacity>
+      );
+    }
+  };
 
   const toggleFavorite = () => {
     const action = { type: "TOGGLE_FAVORITE", value: filmDetail };
@@ -85,7 +139,12 @@ function FilmDetail({ idFilm, navigation, dispatch, favoritesFilm }) {
     }
   };
 
-  return <View style={styles.main_container}>{displayFilm()}</View>;
+  return (
+    <View style={styles.main_container}>
+      {displayFilm()}
+      {displayFloatingActionButton()}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -138,6 +197,24 @@ const styles = StyleSheet.create({
   favorite_image: {
     width: 35,
     height: 35,
+  },
+  share_touchable_floatingactionbutton: {
+    position: "absolute",
+    width: 60,
+    height: 60,
+    right: 30,
+    bottom: 30,
+    borderRadius: 30,
+    backgroundColor: "#e91e63",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  share_touchable_headerrightbutton: {
+    marginRight: 8,
+  },
+  share_image: {
+    width: 30,
+    height: 30,
   },
 });
 

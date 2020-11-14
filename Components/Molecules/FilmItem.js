@@ -89,6 +89,10 @@ const styles = StyleSheet.create({
   favorite_image: {
     width: 25,
     height: 25,
-    marginRight: 5,
+    marginLeft: 10,
+  },
+  vote_film: {
+    textAlign: "center",
+    marginLeft: 10,
   },
 });
