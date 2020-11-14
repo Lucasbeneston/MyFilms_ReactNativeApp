@@ -1,12 +1,24 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import FilmList from "../Organisms/FilmList";
+import { connect } from "react-redux";
 
-export default function Favorites() {
+function Favorites({ favoritesFilm, navigation }) {
   return (
-    <View>
-      <Text>Mes films favoris</Text>
-    </View>
+    <FilmList
+      films={favoritesFilm}
+      navigation={navigation}
+      // favoriteList={true}
+    />
   );
 }
 
 const styles = StyleSheet.create({});
+
+const mapStateToProps = (state) => {
+  return {
+    favoritesFilm: state.favoritesFilm,
+  };
+};
+
+export default connect(mapStateToProps)(Favorites);

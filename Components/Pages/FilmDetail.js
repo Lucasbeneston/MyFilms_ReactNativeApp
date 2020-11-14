@@ -17,6 +17,13 @@ function FilmDetail({ idFilm, navigation, dispatch, favoritesFilm }) {
   const [filmDetail, setFilmDetail] = useState(undefined);
 
   useEffect(() => {
+    const favoriteFilmIndex = favoritesFilm.findIndex(
+      (item) => item.id === idFilm
+    );
+    if (favoriteFilmIndex !== -1) {
+      setFilmDetail(favoritesFilm[favoriteFilmIndex]);
+      return;
+    }
     getFilmDetailFromApi(idFilm).then((data) => {
       setFilmDetail(data);
     });
