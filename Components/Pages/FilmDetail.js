@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Share,
@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  Animated,
 } from "react-native";
 import { getFilmDetailFromApi } from "../../API/TMDBApi";
 import moment from "moment";
@@ -16,10 +17,22 @@ import { connect } from "react-redux";
 function FilmDetail({ idFilm, navigation, dispatch, favoritesFilm }) {
   idFilm = navigation.state.params.idFilm;
   const [filmDetail, setFilmDetail] = useState(undefined);
+  const growUpAnim = useRef(new Animated.Value(0)).current;
+
+  const growUp = () => {
+    Animated.timing(growUpAnim, {
+      toValue: 200,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  useEffect(() => {
+    growUp();
+  }, []);
 
   // WIP : Pb avec la fonction static
   FilmDetail.navigationOptions = ({ navigation }) => {
-    console.log("THIS IS A STATIC METHOD");
     const { params } = navigation.state;
     if (params.film != undefined && Platform.OS === "ios") {
       return {
@@ -101,12 +114,15 @@ function FilmDetail({ idFilm, navigation, dispatch, favoritesFilm }) {
     if (film != undefined) {
       return (
         <ScrollView style={styles.scrollview_container}>
-          <Image
-            style={styles.image_film}
-            source={{
-              uri: `https://image.tmdb.org/t/p/w300${film.backdrop_path}`,
-            }}
-          />
+          <Animated.View style={{ height: growUpAnim }}>
+            <Image
+              style={styles.image_film}
+              source={{
+                uri: `https://image.tmdb.org/t/p/w300${film.backdrop_path}`,
+              }}
+            />
+          </Animated.View>
+
           <View style={styles.information_container}>
             <View style={styles.title_header}>
               <Text style={styles.title_film}>
@@ -158,7 +174,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   image_film: {
-    height: 200,
+    height: "100%",
     flex: 1,
   },
   title_header: {
