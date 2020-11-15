@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import Search from "../Components/Pages/Search";
 import FilmDetail from "../Components/Pages/FilmDetail";
 import Favorites from "../Components/Pages/Favorites";
+import User from "../Components/Pages/User";
 
 const SearchStackNavigator = createStackNavigator({
   Search: {
@@ -58,6 +59,20 @@ const FavoritesStackNavigator = createStackNavigator({
   },
 });
 
+const UserStackNavigator = createStackNavigator({
+  User: {
+    screen: User,
+    navigationOptions: {
+      title: "Mon profile",
+      headerStyle: {
+        backgroundColor: "#02192b",
+        shadowColor: "transparent",
+      },
+      headerTintColor: "#D3D3D3",
+    },
+  },
+});
+
 const MoviesTabNavigator = createBottomTabNavigator(
   {
     Search: {
@@ -90,6 +105,21 @@ const MoviesTabNavigator = createBottomTabNavigator(
         },
       },
     },
+    User: {
+      screen: UserStackNavigator,
+      navigationOptions: {
+        tabBarIcon: () => {
+          return (
+            <View style={styles.container_icon}>
+              <Image
+                source={require("../Images/ic_user.png")}
+                style={styles.icon}
+              />
+            </View>
+          );
+        },
+      },
+    },
   },
   {
     tabBarOptions: {
@@ -102,8 +132,8 @@ const MoviesTabNavigator = createBottomTabNavigator(
         borderTopColor: "transparent",
         backgroundColor: "#02192b",
         position: "absolute",
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
+        // borderTopRightRadius: 30,
+        // borderTopLeftRadius: 30,
         height: 30,
       },
       // activeTintColor: "#e91e63",

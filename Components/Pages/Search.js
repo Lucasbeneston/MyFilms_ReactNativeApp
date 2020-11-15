@@ -69,8 +69,9 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 25,
     backgroundColor: "#D3D3D3",
-    color: "#FFFFFF",
+    color: "#02192b",
     textAlign: "center",
+    fontWeight: "500",
   },
   list_search: {
     paddingTop: 50,

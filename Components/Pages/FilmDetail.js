@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   information_container: {
-    padding: 20,
+    padding: 30,
   },
   image_film: {
     height: null,
