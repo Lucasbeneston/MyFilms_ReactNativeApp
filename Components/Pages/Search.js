@@ -9,7 +9,6 @@ import {
 export default function Search({ navigation }) {
   const [films, setFilms] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [results, setResults] = useState(0);
 
   const searchTextInputChanged = (text) => {
     setSearchText(text);
@@ -23,7 +22,6 @@ export default function Search({ navigation }) {
     } else {
       getFilmsFromApiWithSearchedText(searchText).then((data) => {
         setFilms(data.results);
-        setResults(data.total_results);
       });
     }
   };
@@ -34,35 +32,48 @@ export default function Search({ navigation }) {
 
   return (
     <View style={styles.main_container}>
-      <TextInput
-        style={styles.textinput}
-        placeholder="Rechercher un film"
-        onChangeText={searchTextInputChanged}
+      <View style={styles.header_search}>
+        <TextInput
+          style={styles.textinput}
+          placeholder="Rechercher un film"
+          placeholderTextColor="#02192b"
+          onChangeText={searchTextInputChanged}
+        />
+      </View>
+
+      <FilmList
+        listStyle={styles.list_search}
+        films={films}
+        navigation={navigation}
       />
-      <Text style={styles.list_title}>
-        {searchText.length === 0
-          ? "Films à l'affiche"
-          : `Résultat de recherche : ${results} films`}
-      </Text>
-      <FilmList films={films} navigation={navigation} />
     </View>
   );
 }
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
+    backgroundColor: "#D3D3D3",
+  },
+  header_search: {
+    backgroundColor: "#02192b",
+    height: 20,
+    position: "absolute",
+    width: "100%",
+    zIndex: 99,
+    paddingLeft: 30,
+    paddingRight: 30,
   },
   textinput: {
-    height: 50,
-    borderColor: "#000000",
-    borderWidth: 1,
+    height: 40,
+    borderColor: "#02192b",
+    borderWidth: 3,
     borderRadius: 25,
-    margin: 15,
-    paddingLeft: 15,
-  },
-  list_title: {
-    fontSize: 15,
+    backgroundColor: "#D3D3D3",
+    color: "#FFFFFF",
     textAlign: "center",
-    marginBottom: 15,
+  },
+  list_search: {
+    paddingTop: 50,
+    backgroundColor: "transparent",
   },
 });

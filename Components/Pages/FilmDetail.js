@@ -166,6 +166,7 @@ function FilmDetail({ idFilm, navigation, dispatch, favoritesFilm }) {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
+    backgroundColor: "#D3D3D3",
   },
   scrollview_container: {
     flex: 1,
@@ -174,7 +175,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   image_film: {
-    height: "100%",
+    height: null,
+    width: null,
     flex: 1,
   },
   title_header: {

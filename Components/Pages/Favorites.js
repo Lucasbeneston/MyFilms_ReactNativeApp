@@ -6,14 +6,19 @@ import { connect } from "react-redux";
 function Favorites({ favoritesFilm, navigation }) {
   return (
     <FilmList
+      listStyle={styles.list_search}
       films={favoritesFilm}
       navigation={navigation}
-      // favoriteList={true}
     />
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  list_search: {
+    paddingTop: 10,
+    backgroundColor: "transparent",
+  },
+});
 
 const mapStateToProps = (state) => {
   return {

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -12,13 +12,23 @@ const SearchStackNavigator = createStackNavigator({
   Search: {
     screen: Search,
     navigationOptions: {
-      title: "Rechercher",
+      title: "My Films",
+      headerStyle: {
+        backgroundColor: "#02192b",
+        shadowColor: "transparent",
+      },
+      headerTintColor: "#D3D3D3",
     },
   },
   FilmDetail: {
     screen: FilmDetail,
     navigationOptions: {
       title: "Détail du film",
+      headerStyle: {
+        backgroundColor: "#02192b",
+        shadowColor: "transparent",
+      },
+      headerTintColor: "#D3D3D3",
     },
   },
 });
@@ -28,12 +38,22 @@ const FavoritesStackNavigator = createStackNavigator({
     screen: Favorites,
     navigationOptions: {
       title: "Mes films favoris",
+      headerStyle: {
+        backgroundColor: "#02192b",
+        shadowColor: "transparent",
+      },
+      headerTintColor: "#D3D3D3",
     },
   },
   FilmDetail: {
     screen: FilmDetail,
     navigationOptions: {
       title: "Détail du film",
+      headerStyle: {
+        backgroundColor: "#02192b",
+        shadowColor: "transparent",
+      },
+      headerTintColor: "#D3D3D3",
     },
   },
 });
@@ -45,10 +65,12 @@ const MoviesTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: () => {
           return (
-            <Image
-              source={require("../Images/ic_search.png")}
-              style={styles.icon}
-            />
+            <View style={styles.container_icon}>
+              <Image
+                source={require("../Images/ic_search.png")}
+                style={styles.icon}
+              />
+            </View>
           );
         },
       },
@@ -58,10 +80,12 @@ const MoviesTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: () => {
           return (
-            <Image
-              source={require("../Images/ic_favorite.png")}
-              style={styles.icon}
-            />
+            <View style={styles.container_icon}>
+              <Image
+                source={require("../Images/ic_favorite.png")}
+                style={styles.icon}
+              />
+            </View>
           );
         },
       },
@@ -71,17 +95,38 @@ const MoviesTabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       showLabel: false,
       showIcon: true,
-      activeBackgroundColor: "#DDDDDD",
-      inactiveBackgroundColor: "#FFFFFF",
+      // activeBackgroundColor: "#DDDDDD",
+      // inactiveBackgroundColor: "#FFFFFF",
+
+      style: {
+        borderTopColor: "transparent",
+        backgroundColor: "#02192b",
+        position: "absolute",
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
+        height: 30,
+      },
       // activeTintColor: "#e91e63",
     },
   }
 );
 
 const styles = StyleSheet.create({
+  container_icon: {
+    backgroundColor: "#D3D3D3",
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 100,
+    position: "absolute",
+    borderColor: "#02192b",
+    borderWidth: 3,
+    top: -20,
+  },
   icon: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
   },
 });
 

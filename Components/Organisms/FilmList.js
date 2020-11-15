@@ -3,14 +3,14 @@ import { StyleSheet, FlatList } from "react-native";
 import FilmItem from "../Molecules/FilmItem";
 import { connect } from "react-redux";
 
-function FilmList({ navigation, favoritesFilm, films }) {
+function FilmList({ navigation, favoritesFilm, films, listStyle }) {
   const displayDetailForFilm = (idFilm) => {
     navigation.navigate("FilmDetail", { idFilm: idFilm });
   };
 
   return (
     <FlatList
-      style={styles.list}
+      style={listStyle}
       data={films}
       extraData={favoritesFilm}
       keyExtractor={(item) => item.id.toString()}
